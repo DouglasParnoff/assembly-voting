@@ -1,2 +1,2 @@
 # assembly-voting
-An API project to control an Assembly Voting with
+An API project to control an Assembly Voting
