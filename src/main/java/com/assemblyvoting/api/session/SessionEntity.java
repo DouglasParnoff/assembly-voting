@@ -59,7 +59,7 @@ public class SessionEntity {
 		return endDatetime;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDatetime(Date endDate) {
 		this.endDatetime = endDate;
 	}
 

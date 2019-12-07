@@ -1,11 +1,15 @@
 package com.assemblyvoting.api.associate;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.assemblyvoting.api.vote.VoteEntity;
 
+@Entity
+@Table(name = "associate")
 public class AssociateEntity {
 	private String cpf;
 	private String name;
