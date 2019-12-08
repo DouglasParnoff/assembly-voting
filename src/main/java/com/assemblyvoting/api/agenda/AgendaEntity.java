@@ -1,12 +1,16 @@
 package com.assemblyvoting.api.agenda;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -24,7 +28,7 @@ public class AgendaEntity {
 	private AgendaResultEnum result;
 	private Date creationDatetime;
 	private SessionEntity session;
-	private VoteEntity vote;
+	private List<VoteEntity> votes;
 
 	@Id
 	public String getSubject() {
@@ -34,6 +38,12 @@ public class AgendaEntity {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
+	
+	@PrePersist
+	public void prePersist() {
+		final Date currentDt = new Date();
+		this.creationDatetime = currentDt;
+	}	
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -55,13 +65,7 @@ public class AgendaEntity {
 		this.creationDatetime = creationDatetime;
 	}
 
-	@PrePersist
-	public void prePersist() {
-		final Date currentDt = new Date();
-		this.creationDatetime = currentDt;
-	}
-
-	@OneToOne
+	@OneToOne(mappedBy = "agenda", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public SessionEntity getSession() {
 		return session;
 	}
@@ -70,13 +74,13 @@ public class AgendaEntity {
 		this.session = session;
 	}
 
-	@OneToOne	
-	public VoteEntity getVote() {
-		return vote;
+	@OneToMany(mappedBy = "agenda", fetch = FetchType.LAZY, cascade = CascadeType.ALL)	
+	public List<VoteEntity> getVotes() {
+		return votes;
 	}
 
-	public void setVote(VoteEntity vote) {
-		this.vote = vote;
+	public void setVotes(List<VoteEntity> votes) {
+		this.votes = votes;
 	}
 
 }

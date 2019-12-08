@@ -22,12 +22,12 @@ public class AssociateRepositoryTest {
 	@Autowired
 	AssociateRepository associateRepository;
 	
-	private static final String CPF = "invalidcpf";
+	private static final String INVALIDCPF = "invalidcpf";
 	
 	@Before
 	public void setUp() throws Exception {
 		AssociateEntity associate = new AssociateEntity();
-		associate.setCpf(CPF);
+		associate.setCpf(INVALIDCPF);
 		associate.setName("Some Person Name");
 		this.associateRepository.save(associate);
 	}
@@ -39,7 +39,7 @@ public class AssociateRepositoryTest {
 	
 	@Test
 	public void findByCpf() {
-		Optional<AssociateEntity> associate = this.associateRepository.findById(CPF);
-		assertEquals(CPF, associate.get().getCpf());
+		Optional<AssociateEntity> associate = this.associateRepository.findById(INVALIDCPF);
+		assertEquals(INVALIDCPF, associate.get().getCpf());
 	}
 }

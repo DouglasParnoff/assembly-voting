@@ -2,16 +2,17 @@ package com.assemblyvoting.api.session;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.assemblyvoting.api.agenda.AgendaEntity;
@@ -35,6 +36,12 @@ public class SessionEntity {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	@PrePersist
+	public void prePersist() {
+		final Date currentDt = new Date();
+		this.creationDatetime = currentDt;
+	}	
 
 	@Column(name = "open_time")
 	public int getOpenTime() {
@@ -73,7 +80,7 @@ public class SessionEntity {
 		this.status = status;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "subject", referencedColumnName = "subject")
 	public AgendaEntity getAgenda() {
 		return agenda;
@@ -82,5 +89,5 @@ public class SessionEntity {
 	public void setAgenda(AgendaEntity agenda) {
 		this.agenda = agenda;
 	}
-
+	
 }
